@@ -26,7 +26,9 @@ func main() {
 	res.GET("/report", report)
 	res.GET("/productsUsers", productsUsers)
 
-	res.Run()
+	res.POST("/users/create", postUsers)
+
+	res.Run("localhost:4444")
 }
 
 func users(c *gin.Context) {
@@ -59,4 +61,12 @@ func productsUsers(c *gin.Context) {
     productsUsers := listProductsUsers(db)
 
     c.IndentedJSON(200, productsUsers)
+}
+
+func postUsers(c *gin.Context) {
+	db := connectDB(*dbuser, *dbpwd, *dbname)
+
+    u := createUsers(db, "test", "test", "test", 0)
+
+	c.IndentedJSON(200, u)
 }

@@ -87,3 +87,19 @@ func listProductsUsers(db *gorm.DB) []ProductsUsers {
 
     return productsUsers
 }
+
+func createUsers(db *gorm.DB, name string, email string, pwd string, role int) int64 {
+
+	users := []User {
+		{Name: name, Email: email, Password: pwd, Role: role, Created_at: time.Now()},
+	}
+
+	result := db.Create(&users)
+
+	if result.Error != nil {
+		fmt.Println(result.Error)
+        return 0
+	}
+
+	return result.RowsAffected
+}
